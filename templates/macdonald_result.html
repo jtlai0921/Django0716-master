@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}macdonald{% endblock %}
+{% block content %}
+    <form class="pure-form">
+        <fieldset>
+            <legend>Macdonald 訂購結果</legend>
+        </fieldset>
+        <table class="pure-table pure-table-bordered">
+            <thead>
+            <tr>
+                <th>商品</th>
+                <th>數量</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.product }}</td>
+                <td>{{ item.amount }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">
+                    <center>沒有資料</center>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </form>
+{% endblock %}

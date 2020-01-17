@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Youbike Result{% endblock %}
+{% block content %}
+    <table>
+        <td valign="top" style="padding: 5px;">
+            <form class="pure-form">
+                <fieldset>
+                    <legend>Youbike 查詢結果</legend>
+                </fieldset>
+            </form>
+            <table class="pure-table pure-table-bordered">
+                <thead>
+                <tr>
+                    <th>站名</th>
+                    <th>總量</th>
+                    <th>可借</th>
+                    <th>可還</th>
+                    <th>距離</th>
+                    <th>行走時間(分)</th>
+                    <th>更新時間</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for key, value in data.items %}
+                    <tr style="cursor: pointer">
+                        <td>{{ key }}</td>
+                        <td>{{ value.tot }}</td>
+                        <td>{{ value.sbi }}</td>
+                        <td>{{ value.bemp }}</td>
+                        <td>{{ value.m }}</td>
+                        <td>{{ value.t }}</td>
+                        <td>{{ value.mday }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7">
+                            <center>沒有資料</center>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </td>
+        <td valign="top" style="padding: 5px;">
+            <form class="pure-form">
+                <fieldset>
+                    <legend>Youbike Map</legend>
+                </fieldset>
+            </form>
+            <iframe name="youbike_map" src="/map/" width="600" height="450" style="border:none"></iframe>
+        </td>
+    </table>
+{% endblock %}

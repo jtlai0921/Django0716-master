@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Youbike Form{% endblock %}
+{% block content %}
+    <form class="pure-form" action="/youbike_result/" target="youbike_iframe">
+        <fieldset>
+            <legend>Youbike Form</legend>
+            緯度:<input type="text" placeholder="請輸入緯度" name="lat" value="{{ data.lat }}">
+            經度:<input type="text" placeholder="請輸入經度" name="lng" value="{{ data.lng }}">
+            <p/>
+
+            距離:<input type="number" placeholder="請輸入距離" name="dist" value="{{ data.dist }}">
+            可借:<input type="number" placeholder="請輸入可借數量" name="sbi" value="{{ data.sbi }}">
+            可還:<input type="number" placeholder="請輸入可還數量" name="bemp" value="{{ data.bemp }}">
+            <p/>
+
+            <button type="submit" class="pure-button pure-button-primary">查詢</button>
+        </fieldset>
+    </form>
+    <iframe name="youbike_iframe" width="1500" height="600" style="border:none"></iframe>
+
+{% endblock %}

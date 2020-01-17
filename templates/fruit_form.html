@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>水果投票調查</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css">
+</head>
+<body style="padding:15px;">
+    <form class="pure-form" action="/fruit_result/" target="fruit_iframe">
+        <fieldset>
+            <legend>水果投票</legend>
+
+            <input type="text" placeholder="請輸入水果名" name="fruit_name1" value="香蕉" readonly>
+            <input type="number" placeholder="請輸入票數" name="fruit_vote1" value="200"><p />
+
+            <input type="text" placeholder="請輸入水果名" name="fruit_name2" value="西瓜" readonly>
+            <input type="number" placeholder="請輸入票數" name="fruit_vote2" value="300"><p />
+
+            <input type="text" placeholder="請輸入水果名" name="fruit_name3" value="芒果" readonly>
+            <input type="number" placeholder="請輸入票數" name="fruit_vote3" value="400"><p />
+
+            <button type="submit" class="pure-button pure-button-primary">傳送並看結果</button>
+        </fieldset>
+    </form>
+    <iframe name="fruit_iframe" width="1200" height="600" style="border:none" ></iframe>
+</body>
+</html>

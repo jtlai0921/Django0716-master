@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Ajax Lotto Form{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        var data, options, chart;
+        var times = 1;
+        var timeoutId = null;
+        var delay = 500;
+        var max_acount = 10;
+        var chartType = 1; // 1: LineChart, 2: BarChart
+
+        function drawChart() {
+            data = google.visualization.arrayToDataTable([
+                ['times', '蔡', '韓', '柯', '郭'],
+                ['1', 40, 30, 20, 10],
+            ]);
+
+            options = {
+                title: '2020 總統大選支持度調查',
+                curveType: 'function',
+                legend: {position: 'top'}
+            };
+
+            if(chartType == 1) {
+                chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            } else {
+                chart = new google.visualization.BarChart(document.getElementById('curve_chart'));
+            }
+
+            chart.draw(data, options);
+        }
+
+        function showResult() {
+            for(var i=0;i<document.myform.rating.length;i++) {
+                if (document.myform.rating[i].value < 0) {
+                    document.myform.rating[i].value = '0';
+                }
+            }
+            var temp=[]; // 建立陣列
+            temp.push('' + (++times));
+            temp.push(parseInt(document.myform.rating[0].value));
+            temp.push(parseInt(document.myform.rating[1].value));
+            temp.push(parseInt(document.myform.rating[2].value));
+            temp.push(parseInt(document.myform.rating[3].value));
+
+            data.addRow(temp); // 加入陣列資料
+            if(data.wg.length > max_acount) // 資料筆數
+                data.removeRow(0); // 移除第一筆
+            chart.draw(data, options); // 重新繪製
+
+        }
+
+        function showAutoResult() {
+            var ratings = [];
+            ratings.push(getRandom(0, 100));
+            ratings.push(getRandom(0, 100));
+            ratings.push(getRandom(0, 100));
+            ratings.push(getRandom(0, 100));
+
+            for(var i=0;i<document.myform.rating.length;i++) {
+                document.myform.rating[i].value = '' + ratings[i];
+                if (document.myform.rating[i].value < 0) {
+                    document.myform.rating[i].value = '0';
+                }
+            }
+            var temp=[]; // 建立陣列
+            temp.push('' + (++times));
+            for(var i=0;i<ratings.length;i++) {
+                temp.push(ratings[i]);
+            }
+
+            data.addRow(temp); // 加入陣列資料
+
+            if(data.wg.length > max_acount) // 資料筆數
+                data.removeRow(0); // 移除第一筆
+
+            chart.draw(data, options); // 重新繪製
+
+        }
+
+        function play() {
+            if(timeoutId == null) {
+                timeoutId = setInterval(showAutoResult, delay);
+            }
+        }
+
+        function stop() {
+            if(timeoutId != null) {
+                clearInterval(timeoutId);
+                timeoutId = null;
+            }
+        }
+
+        function getRandom(min, max){
+            return Math.floor(Math.random()*(max-min+1))+min;
+        }
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <td valign="top">
+            <form class="pure-form" id="myform" name="myform">
+                <fieldset>
+                    <legend>設定支持度 (Ajax)</legend>
+                    蔡 : <input type="number" value="40" id="rating" name="rating" onchange="showResult()">
+                    <p/>
+                    韓 : <input type="number" value="30" id="rating" name="rating" onchange="showResult()">
+                    <p/>
+                    柯 : <input type="number" value="20" id="rating" name="rating" onchange="showResult()">
+                    <p/>
+                    郭 : <input type="number" value="10" id="rating" name="rating" onchange="showResult()">
+                    <p/>
+                    <button type="button" class="pure-button pure-button-primary" onclick="showResult()">手動</button>
+                    <button type="button" class="pure-button pure-button-primary" onclick="play()">自動</button>
+                    <button type="button" class="pure-button pure-button-primary" onclick="stop()">停止</button>
+                </fieldset>
+
+            </form>
+        </td>
+        <td valign="top">
+            <div id="curve_chart" style="width: 900px; height: 500px"></div>
+        </td>
+    </table>
+
+
+{% endblock %}

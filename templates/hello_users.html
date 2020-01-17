@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Users{% endblock %}
+{% block content %}
+    原始資料:{{ users }}
+    <hr>
+    美化資料:
+    <table class="pure-table pure-table-bordered">
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>age</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for user in users %}
+            <tr style="cursor: pointer" title="請點我一下">
+                <td>{{ user.name }}</td>
+                <td>{{ user.age }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">
+                    <center>沒有資料</center>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}macdonald{% endblock %}
+{% block content %}
+    <form class="pure-form" action="/macdonald_result/" method="POST" target="macdonald_iframe">
+         {% csrf_token %}
+        Hi {{ email }} 您好:
+        <fieldset>
+            <legend>Macdonald form</legend>
+            <label for="state">商品</label>
+            <select id="product" name="product">
+                <option value="麥香魚">麥香魚</option>
+                <option value="薯條">薯條</option>
+                <option value="可樂">可樂</option>
+            </select>
+            <input type="number" placeholder="數量" id="amount" name="amount"><p/>
+            <button type="submit" class="pure-button pure-button-primary">放入購物車</button>
+            <button type="button"
+                    class="pure-button pure-button-primary"
+                    onclick="window.top.frames['macdonald_iframe'].location.href='/macdonald_result/'">查看購物車</button>
+            <button type="button"
+                    class="pure-button pure-button-primary"
+                    onclick="window.top.frames['macdonald_iframe'].location.href='/macdonald_clear/'">清除購物車</button>
+            <button type="button"
+                    class="pure-button pure-button-primary"
+                    onclick="location.href='/login_session_out/'">登出</button>
+        </fieldset>
+    </form>
+    <iframe name="macdonald_iframe" width="800" height="400" style="border:none"></iframe>
+{% endblock %}

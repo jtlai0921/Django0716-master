@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Ajax Lotto Form{% endblock %}
+{% block js %}
+    <script>
+        var timeoutId = null;
+        var count = 0;
+        function loadLotto() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && (this.status == 200||this.status == 201||this.status == 202)) {
+                    //document.getElementById("result").innerText = this.responseText;
+                    // 顯示累計資料'
+                    var h = document.getElementById("result");
+                    var data = new Date() + " -> " + this.responseText+'<br>';
+                    h.insertAdjacentHTML("afterEnd", data);
+                    //h.insertAdjacentHTML("afterbegin", this.responseText+'<br>');
+
+                    // 顯示有幾筆資料'
+                    document.getElementById("auto_text").innerText = '自動取得(' + (++count) + ')';
+                }
+            };
+            xhttp.open("GET", "/ajax_lotto_result/", true);
+            xhttp.send();
+        }
+
+        function autoLoadLotto() {
+            if(timeoutId == null) {
+                timeoutId = window.setInterval(loadLotto, 0);
+                console.log('timeoutId: ' + timeoutId);
+            }
+        }
+
+        function stopLoadLotto() {
+            if(timeoutId != null) {
+                window.clearInterval(timeoutId);
+                timeoutId = null;
+            }
+        }
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <form class="pure-form" action="/ajax_lotto_result/">
+        <fieldset>
+            <legend>取得 Lotto 號碼 (傳統)</legend>
+            <button type="submit" class="pure-button pure-button-primary">取得</button>
+        </fieldset>
+    </form>
+    <form class="pure-form">
+        <fieldset>
+            <legend>取得 Lotto 號碼 (Ajax)</legend>
+            <button type="button" class="pure-button pure-button-primary" onclick="loadLotto()">手動取得</button>
+            <button type="button" class="pure-button pure-button-primary" onclick="autoLoadLotto()"><span id="auto_text">自動取得</span></button>
+            <button type="button" class="pure-button pure-button-primary" onclick="stopLoadLotto()">停止取得</button>
+        </fieldset>
+        <!-- 得到 Lotto 號碼 -->
+        <span style="font-size: 10px">
+            <div id="result"></div>
+        </span>
+    </form>
+
+{% endblock %}

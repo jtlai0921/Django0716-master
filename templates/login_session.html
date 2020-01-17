@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Login Session{% endblock %}
+{% block content %}
+    <form class="pure-form" action="/login_session_check/" method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Login Session</legend>
+        <input type="email" placeholder="Email" name="email" value="{{ data.email }}"><p/>
+        <input type="password" placeholder="Password" name="password" value="{{ data.password }}"><p/>
+        <label for="remember">
+            <input id="remember" type="checkbox" name="remember" value="True" {{ data.remember }}> Remember me
+        </label><p/>
+        <button type="submit" class="pure-button pure-button-primary">Sign in</button>
+    </fieldset>
+</form>
+{% endblock %}
